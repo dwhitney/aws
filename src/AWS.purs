@@ -57,6 +57,8 @@ type RequestParams =
 type AWSContext =
   { fetchImpl :: FetchImpl
   , credentials :: AVar Credentials
+  , region :: String
+  , identity_pool_id :: String
   }
 
 newtype AWSError = AWSError { type :: String, message :: String }
@@ -68,8 +70,8 @@ instance readForeignAWSError :: ReadForeign AWSError where
     (tmp :: { "__type" :: String }) <- readImpl f
     pure $ AWSError { type : tmp."__type", message : unsafeStringify f }
 
-type AWS r a = Run(aff :: AFF, aws :: EXCEPT AWSError, reader :: READER AWSContext | r) a
-type Stream r a = Run(aff :: AFF, reader :: READER AWSContext, yield :: YIELD a, aws :: EXCEPT AWSError | r) Unit
+type AWS r a = Run(aff :: AFF, aws :: EXCEPT AWSError, awsreader :: READER AWSContext | r) a
+type Stream r a = Run(aff :: AFF, awsreader :: READER AWSContext, yield :: YIELD a, aws :: EXCEPT AWSError | r) Unit
 
 type CredentialsINI =
   { default ::
@@ -97,15 +99,18 @@ newtype Action = Action String
 _aws :: SProxy "aws"
 _aws = SProxy
 
+_awsreader :: SProxy "awsreader"
+_awsreader = SProxy
+
 credentials :: ∀ r . AWS r Credentials
 credentials = do
-  ctx <- Reader.ask
+  ctx <- Reader.askAt _awsreader
   Run.liftAff $ AVar.read ctx.credentials
 
 defaultContext :: Aff AWSContext
 defaultContext = do
   creds  <- AVar.new =<< (envCredentials <|> credentialsFromINI)
-  pure { fetchImpl : nodeFetch, credentials : creds }
+  pure { fetchImpl : nodeFetch, credentials : creds, region: "us-east-1", identity_pool_id : "" }
 
 credentialsFromINI :: Aff Credentials
 credentialsFromINI = do
@@ -116,7 +121,7 @@ credentialsFromINI = do
 
 fetchImpl :: ∀ r . AWS r FetchImpl
 fetchImpl = do
-  ctx <- Reader.ask
+  ctx <- Reader.askAt _awsreader
   pure ctx.fetchImpl
 
 request :: ∀ r i o

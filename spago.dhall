@@ -9,15 +9,18 @@ You can edit this file as you like.
   , "crypto"
   , "effect"
   , "foreign"
+  , "foreign-generic"
   , "js-date"
   , "milkis"
   , "node-fs-aff"
+  , "profunctor-lenses"
   , "psci-support"
   , "run"
   , "run-streaming"
   , "simple-json"
   , "spec"
   , "tortellini"
+  , "uuid"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
