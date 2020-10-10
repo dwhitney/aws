@@ -2,17 +2,14 @@ module AWS.Cognito where
 
 import Prelude
 
-import AWS (AWS, _aws, _awsreader)
+import AWS (AWS, _awsreader)
 import Data.Either (Either(..))
 import Data.UUID as UUID
 import Effect.Aff (Error, error)
 import Effect.Aff as Aff
 import Effect.Class (liftEffect)
 import Milkis as M
-import Milkis.Impl (FetchImpl)
-import Run (AFF, Run, SProxy(..))
 import Run as Run
-import Run.Reader (READER)
 import Run.Reader as Reader
 import Simple.JSON (read, writeJSON)
 import Utils (runErrorLog, runLiftEither)
