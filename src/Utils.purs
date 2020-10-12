@@ -1,4 +1,4 @@
-module Utils where
+module AWS.Utils where
 
 import Prelude
 

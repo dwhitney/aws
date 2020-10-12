@@ -12,7 +12,7 @@ import Milkis as M
 import Run as Run
 import Run.Reader as Reader
 import Simple.JSON (read, writeJSON)
-import Utils (runErrorLog, runLiftEither)
+import AWS.Utils (runErrorLog, runLiftEither)
 
 cognitoUrl :: String
 cognitoUrl = "https://cognito-identity.us-east-1.amazonaws.com/"

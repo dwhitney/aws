@@ -37,7 +37,7 @@ import Run.Reader as Reader
 import Run.Streaming (YIELD)
 import Simple.JSON (class ReadForeign, class WriteForeign, readImpl, readJSON, writeJSON)
 import Tortellini (parsellIni)
-import Utils (liftEither, runLiftEither)
+import AWS.Utils (liftEither, runLiftEither)
 
 
 
