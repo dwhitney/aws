@@ -59,6 +59,7 @@ type AWSContext =
   , credentials :: AVar Credentials
   , region :: String
   , identity_pool_id :: String
+  , user_pool_id :: String
   }
 
 newtype AWSError = AWSError { type :: String, message :: String }
@@ -106,11 +107,6 @@ credentials :: ∀ r . AWS r Credentials
 credentials = do
   ctx <- Reader.askAt _awsreader
   Run.liftAff $ AVar.read ctx.credentials
-
-defaultContext :: Aff AWSContext
-defaultContext = do
-  creds  <- AVar.new =<< (envCredentials <|> credentialsFromINI)
-  pure { fetchImpl : nodeFetch, credentials : creds, region: "us-east-1", identity_pool_id : "" }
 
 credentialsFromINI :: Aff Credentials
 credentialsFromINI = do
