@@ -60,6 +60,7 @@ type AWSContext =
   , region :: String
   , identity_pool_id :: String
   , user_pool_id :: String
+  , client_id :: String
   }
 
 newtype AWSError = AWSError { type :: String, message :: String }
