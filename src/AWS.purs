@@ -4,7 +4,6 @@ import Prelude
 
 import AWS.SignatureV4.Functions as SignatureV4
 import AWS.SignatureV4.Types (Body(..))
-import Control.Alt ((<|>))
 import Data.Either (Either(..))
 import Data.Foldable as A
 import Data.JSDate as JSDate
@@ -25,7 +24,6 @@ import Foreign.Object as O
 import Global.Unsafe (unsafeEncodeURIComponent, unsafeStringify)
 import Milkis as M
 import Milkis.Impl (FetchImpl)
-import Milkis.Impl.Node (nodeFetch)
 import Node.Encoding (Encoding(..))
 import Node.FS.Aff as FS
 import Run (AFF, Run, SProxy(..))
